@@ -1,0 +1,56 @@
+//Validation status code:
+//------------------------------------------------------------------------------------
+pm.test("Response status code is 200", function () {
+  pm.response.to.have.status(200);
+});
+
+
+//Validation response word:
+pm.test("status code name ok",()=>{
+    pm.response.to.have.status("OK");
+});
+
+//Validation status code:
+pm.test("Successful post",()=>{
+    pm.expect(pm.response.code).to.be.oneOf([201,202]);
+});
+
+//------------------------------------------------------------------------------------
+Validation headers:
+
+//Validation header Content-type is present:
+pm.test("Content-type is present",()=>{
+    pm.response.to.have.header("Content-Type");
+});
+
+//Validation header Content-type is application/json:
+pm.test("conten-type is application/json",()=>{
+    pm.expect(pm.response.headers.get("Content-Type")).to.eql("application/json; charset=utf-8");
+
+});
+//-------------------------------------------------------------------------------------
+Validation bode:
+const JsonData = pm.response.json();
+
+//Test data type of the response
+pm.test("Test data type of the response",()=>{
+    pm.expect(JsonData).to.be.an('object');
+    pm.expect(JsonData.name).to.be.a("string");
+    pm.expect(JsonData.generId).to.be.a("Number");
+    pm.expect(JsonData.price).to.be.a("Number");
+    pm.expect(new Date(JsonData.releaseDate)).to.be.a('date');
+});
+
+//Test json fields in response:
+pm.test("check value of fields",()=>{
+    pm.expect(JsonData.id).to.eql(3);
+    pm.expect(JsonData.name).to.eql("Street Fighter");
+    pm.expect(JsonData.generId).to.eql(3);
+    pm.expect(JsonData.price).to.eql(39.99);
+});
+
+
+//Test response time:
+pm.test("Response time is less than 200ms", ()=> {
+    pm.expect(pm.response.responseTime).to.be.below(200);
+});
