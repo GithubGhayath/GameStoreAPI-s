@@ -1,0 +1,33 @@
+CREATE DATABASE GameStore;
+
+USE GameStore
+
+CREATE TABLE Games(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Name NVARCHAR(MAX) NOT NULL,
+	Price SMALLMONEY NOT NULL,
+	ReleasDate DATE NOT NULL
+);
+
+
+CREATE TABLE Geners(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Name NVARCHAR(MAX) NOT NULL
+);
+
+
+ALTER TABLE Games
+ADD GenerID int;
+
+ALTER TABLE Games
+ADD CONSTRAINT FK_ConstraintName FOREIGN KEY (GenerID)
+REFERENCES Geners(Id);
+
+
+INSERT INTO Geners (Name) 
+VALUES 
+('Action'),
+('Adventure'),
+('RPG'),
+('Sports'),
+('Strategy');
